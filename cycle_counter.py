@@ -37,7 +37,7 @@ def tie_txt_to_csv(txt_file, csv_file):
 
 
 def main(wd = '.'):
-    txts, csvs = cch.give_filenames(wd)
+    txts, csvs = cch.give_filenames()
     count = cch.Count()
     for name in txts:
         for line in open(name, 'r', newline = ''):
@@ -46,6 +46,6 @@ def main(wd = '.'):
     for name in csvs:
         f = csv.reader(open(name, 'r', newline = ''))
         csv_obj.extend(f)
-    founds, non_matching, extras = count.split_csvs(csv_obj)
-    csv.writer(open(FOUND.csv)).writerows(founds)
-    csv.writer(open(TO_CHECK.csv)).writerows(non-matching + extras)
+    founds, non_matching, extras = count.split_csvs(csv_obj, 3, 5)
+    csv.writer(open('FOUND.csv', 'w', newline = '')).writerows(founds)
+    csv.writer(open('TO_CHECK.csv', 'w', newline = '')).writerows(non_matching + extras)

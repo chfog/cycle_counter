@@ -2,7 +2,7 @@
 
 
 
-
+import os
 
 
 class Count:
@@ -23,7 +23,7 @@ class Count:
         non_matching = []
         extras_csv = []
 
-        rows_dict = dict(map(lambda x: (x[isbn_col_num], x)))
+        rows_dict = dict(map(lambda x: [x[isbn_col_num], x], csv_obj))
 
         for isbn, num_found in self.founds.items():
             if isbn in rows_dict:
@@ -33,7 +33,7 @@ class Count:
                 else:
                     non_matching.append(rows_dict[isbn])
             else:
-                extras_csv.append()
+                extras_csv.append([isbn, num_found])
 
         return (founds_csv, non_matching, extras_csv)
 
@@ -56,12 +56,12 @@ def csv_clean(csv_obj):
 
 
 
-def give_filenames(cwd = '.'):
+def give_filenames(cwd = '.', excludes = ["FOUND.csv", "TO_CHECK.csv"]):
     txts, csvs = [], []
     for f in os.listdir(cwd):
         if f.split('.')[-1] == 'txt':
             txts.append(f)
-        elif f.split(".") == 'csv':
+        elif f.split(".")[-1] == 'csv' and f not in excludes:
             csvs.append(f)
         else: pass
     return txts, csvs
