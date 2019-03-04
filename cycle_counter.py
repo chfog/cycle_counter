@@ -1,19 +1,12 @@
 
 import sys
 import csv
+import os
+import cycle_counter_helper as cch
 
 ##os.chdir('/Users/chf')
 ##CSV = "trial-cycle-count.csv"
 ##TXT = "test-isbns.txt"
-
-
-def clean(isbn):
-    if isbn[0] == '{':
-        return isbn[1:14]
-    elif isbn[0] == '^':
-        return isbn[1:13]
-    else:
-        raise ValueError
 
 
 def tie_txt_to_csv(txt_file, csv_file):
@@ -41,4 +34,18 @@ def tie_txt_to_csv(txt_file, csv_file):
     for row in extras.values():
         out_csv_to_check.writerow(row)
 
-# tie_txt_to_csv(sys.argv[1], sys.argv[2])
+
+
+def main(wd = '.'):
+    txts, csvs = cch.give_filenames(wd)
+    count = cch.Count()
+    for name in txts:
+        for line in open(name, 'r', newline = ''):
+            count.increment(cch.isbn_clean(line))
+    csv_obj = []
+    for name in csvs:
+        f = csv.reader(open(name, 'r', newline = ''))
+        csv_obj.extend(f)
+    founds, non_matching, extras = count.split_csvs(csv_obj)
+    csv.writer(open(FOUND.csv)).writerows(founds)
+    csv.writer(open(TO_CHECK.csv)).writerows(non-matching + extras)
