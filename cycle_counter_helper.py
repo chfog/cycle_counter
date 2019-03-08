@@ -19,23 +19,27 @@ class Count:
             self.founds[isbn] = 1
 
     def split_csvs(self, csv_obj, isbn_col_num = 0, on_hand_col_num = 10):
-        founds_csv = []
+
+        matching_csv = []
         non_matching = []
         extras_csv = []
 
-        rows_dict = dict(map(lambda x: [x[isbn_col_num], x], csv_obj))
+        csv_isbns = set()
+
+        for row in csv_obj:
+            csv_isbn = row[isbn_col_num]
+            row.append(self.founds.setdefault(csv_isbn, 0))
+            csv_isbns.add(csv_isbn)
+            if int(row[on_hand_col_num]) == self.founds[csv_isbn]:
+                matching_csv.append(row)
+            else:
+                non_matching.append(row)
 
         for isbn, num_found in self.founds.items():
-            if isbn in rows_dict:
-                rows_dict[isbn].append(num_found)
-                if int((rows_dict[isbn])[on_hand_col_num]) == num_found:
-                    founds_csv.append(rows_dict[isbn])
-                else:
-                    non_matching.append(rows_dict[isbn])
-            else:
+            if isbn not in csv_isbns:
                 extras_csv.append([isbn, num_found])
 
-        return (founds_csv, non_matching, extras_csv)
+        return (matching_csv, non_matching, extras_csv)
 
 
 
