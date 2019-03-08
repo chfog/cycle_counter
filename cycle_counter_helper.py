@@ -3,6 +3,7 @@
 
 
 import os
+import blender_config
 
 
 class Count:
@@ -18,7 +19,7 @@ class Count:
         else:
             self.founds[isbn] = 1
 
-    def split_csvs(self, csv_obj, isbn_col_num = 0, on_hand_col_num = 10):
+    def split_csvs(self, csv_obj, isbn_col_num = 0, on_hand_col_num = 10, found_col_number = 11):
 
         matching_csv = []
         non_matching = []
@@ -28,7 +29,7 @@ class Count:
 
         for row in csv_obj:
             csv_isbn = row[isbn_col_num]
-            row.append(self.founds.setdefault(csv_isbn, 0))
+            row[found_col_number] = self.founds.setdefault(csv_isbn, 0)
             csv_isbns.add(csv_isbn)
             if int(row[on_hand_col_num]) == self.founds[csv_isbn]:
                 matching_csv.append(row)

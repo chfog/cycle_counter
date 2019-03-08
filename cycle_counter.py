@@ -3,6 +3,7 @@ import sys
 import csv
 import os
 import cycle_counter_helper as cch
+import blender_config
 
 ##os.chdir('/Users/chf')
 ##CSV = "trial-cycle-count.csv"
@@ -46,6 +47,6 @@ def main(wd = '.'):
     for name in csvs:
         f = csv.reader(open(name, 'r', newline = ''))
         csv_obj.extend(f)
-    founds, non_matching, extras = count.split_csvs(csv_obj, 3, 5)
+    founds, non_matching, extras = count.split_csvs(csv_obj, blender_config.isbn_col_number, blender_config.on_hand_col_number, blender_config.found_col_number)
     csv.writer(open('FOUND.csv', 'w', newline = '')).writerows(founds)
     csv.writer(open('TO_CHECK.csv', 'w', newline = '')).writerows(non_matching + extras)
