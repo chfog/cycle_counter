@@ -60,13 +60,23 @@ def csv_clean(csv_obj):
     #      maybe this should be its own class
 
 
+def is_excluded(f, excludes):
+    for ex in excludes:
+        if ex in f:
+            return True
+    return False
+
+
 
 def give_filenames(cwd = '.', excludes = ["FOUND.csv", "TO_CHECK.csv"]):
     txts, csvs = [], []
     for f in os.listdir(cwd):
-        if f.split('.')[-1] == 'txt':
+        if is_excluded(f, excludes):
+            pass
+        elif f.split('.')[-1] == 'txt':
             txts.append(f)
-        elif f.split(".")[-1] == 'csv' and f not in excludes:
+        elif f.split(".")[-1] == 'csv':
             csvs.append(f)
         else: pass
+    print(txts, csvs)
     return txts, csvs

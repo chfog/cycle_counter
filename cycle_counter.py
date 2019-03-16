@@ -1,5 +1,5 @@
 
-import sys
+import datetime
 import csv
 import os
 import cycle_counter_helper as cch
@@ -47,6 +47,12 @@ def main(wd = '.'):
     for name in csvs:
         f = csv.reader(open(name, 'r', newline = ''))
         csv_obj.extend(f)
-    founds, non_matching, extras = count.split_csvs(csv_obj, blender_config.isbn_col_number, blender_config.on_hand_col_number, blender_config.found_col_number)
-    csv.writer(open('FOUND.csv', 'w', newline = '')).writerows(founds)
-    csv.writer(open('TO_CHECK.csv', 'w', newline = '')).writerows(non_matching + extras)
+    founds, non_matching, extras = count.split_csvs(filter(lambda x: x != csv_obj[0], csv_obj[1:]),\
+                                                    blender_config.isbn_col_number,\
+                                                    blender_config.on_hand_col_number,\
+                                                    blender_config.found_col_number)
+    header = csv_obj[0]
+    header[blender_config.found_col_number] = "Found"
+    d_str = datetime.date.today().strftime("%m.%d.%Y_")
+    csv.writer(open(d_str + 'FOUND.csv', 'w', newline = '')).writerows([header] + founds)
+    csv.writer(open(d_str + 'TO_CHECK.csv', 'w', newline = '')).writerows([header] + non_matching + extras)

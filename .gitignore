@@ -1,0 +1,13 @@
+
+
+
+#  Ignore Generated files
+
+FOUND.csv
+*FOUND.csv
+TO_CHECK.csv
+*TO_CHECK.csv
+
+
+# Ignore pycache
+__pycache__/

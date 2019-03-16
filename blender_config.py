@@ -5,11 +5,11 @@
 
 ## This variable should be set to the column in your input csv that contains
 ## the ISBNs. Index it from zero (eg, if it's the fifth column, put 4)
-isbn_col_number = 3
+isbn_col_number = 0
 
 ## This variable is the column number of the number of items on-hand. Again,
 ## index from 0
-on_hand_col_number = 5
+on_hand_col_number = 10
 
 ## This is the column where the number of found items will be put. Again,
 ## index from 0. If you would like it to be at the end of the column, put -1.
