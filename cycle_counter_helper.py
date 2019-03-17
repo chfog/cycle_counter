@@ -1,63 +1,79 @@
 
 
 
-
+import isbn
 import os
 import blender_config
+import Tables
+
+class Record:
+
+    def __init__(self, clean_isbn, number = 0, bay = 0, book = 0):
+        self.isbn = clean_isbn
+        self.number = number
+        self.bay = bay
+        self.book = book
+
+    def increment(self):
+        self.number += 1
+
+    def get_header(self):
+        return ["ID", "Found", "Bay", "book"]
+
+    def get_ls(self):
+        return [clean_isbn, number, bay, book]
+
+    def num(self):
+        return self.number
+
 
 
 class Count:
 
     def __init__(self, isbns = []):
         self.founds = dict()
-        for isbn in isbns:
-            self.increment(isbn)
 
-    def increment(self, isbn, num = 1):
-        if isbn in self.founds:
-            self.founds[isbn] += 1
+    def increment(self, raw_bc, bay = 0, book = 0, num = 1):
+        comp = isbn.to_compare(raw_bc)
+        if comp in self.founds:
+            self.founds[comp].increment()
         else:
-            self.founds[isbn] = 1
+            self.founds[comp] = Record(isbn.to_display(raw_bc), num, bay, book)
 
-    def split_csvs(self, csv_obj, isbn_col_num = 0, on_hand_col_num = 10, found_col_number = 11):
 
-        matching_csv = []
-        non_matching = []
-        extras_csv = []
+    def split_csvs(self, csv_obj):
+
+        matching_csv = Tables.Table(csv_obj.get_header() + ['Found'])
+        non_matching = Tables.Table(csv_obj.get_header() + ['Found'])
+        extras_csv = Tables.Table(Record.get_header())
+
+        matching_col = []
+        non_matching_col = []
 
         csv_isbns = set()
 
-        for row in csv_obj:
-            csv_isbn = row[isbn_col_num]
-            row[found_col_number] = self.founds.setdefault(csv_isbn, 0)
-            csv_isbns.add(csv_isbn)
-            if int(row[on_hand_col_num]) == self.founds[csv_isbn]:
-                matching_csv.append(row)
-            else:
-                non_matching.append(row)
+        for row in csv_obj.rows():
 
-        for isbn, num_found in self.founds.items():
+            if row[csv_obj.col_number("Barcode")]:
+                csv_isbn = isbn.to_compare(row[csv_obj.col_number("Barcode")])
+            else:
+                csv_isbn = isbn.to_compare(row[csv_obj.col_number("ID")])
+
+            num_found = self.founds.get(csv_isbn, Record()).num()
+            csv_isbns.add(csv_isbn)
+
+            if int(row[csv_obj.col_number("On Hand")]) == num_found and \
+               (not csv_obj.has_col("Notes") or \
+               not row[csv_obj.col_number("Notes")]):
+                matching_csv.add_row(row + [num_found])
+            else:
+                non_matching.add_row(row + [num_found])
+
+        for isbn, record in self.founds.items():
             if isbn not in csv_isbns:
-                extras_csv.append([isbn, num_found])
+                extras_csv.add_row(record.get_ls())
 
         return (matching_csv, non_matching, extras_csv)
-
-
-
-def isbn_clean(isbn):
-    if isbn[0] == '{':
-        return isbn[1:14]
-    elif isbn[0] == '^':
-        return isbn[1:13]
-    else:
-        raise ValueError
-
-
-def csv_clean(csv_obj):
-    return csv_obj[1:]
-    #todo: check to see whether header is included
-    #      maybe cut columns based on configuration?
-    #      maybe this should be its own class
 
 
 def is_excluded(f, excludes):
@@ -70,13 +86,12 @@ def is_excluded(f, excludes):
 
 def give_filenames(cwd = '.', excludes = ["FOUND.csv", "TO_CHECK.csv"]):
     txts, csvs = [], []
-    for f in os.listdir(cwd):
-        if is_excluded(f, excludes):
+    for fname in os.listdir(cwd):
+        if is_excluded(fname, excludes):
             pass
-        elif f.split('.')[-1] == 'txt':
-            txts.append(f)
-        elif f.split(".")[-1] == 'csv':
-            csvs.append(f)
+        elif fname.endswith('txt'):
+            txts.append(fname)
+        elif fname.endswith('csv'):
+            csvs.append(fname)
         else: pass
-    print(txts, csvs)
     return txts, csvs
