@@ -12,6 +12,8 @@ TO_CHECK.csv
 # Ignore pycache
 __pycache__/
 
+# Ignore testdir
+testdir/
 
 # Ignore test files
 test-isbns.txt

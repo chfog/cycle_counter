@@ -8,7 +8,7 @@ import Tables
 
 class Record:
 
-    def __init__(self, clean_isbn, number = 0, bay = 0, book = 0):
+    def __init__(self, clean_isbn = '', number = 0, bay = 0, book = 0):
         self.isbn = clean_isbn
         self.number = number
         self.bay = bay
@@ -17,11 +17,11 @@ class Record:
     def increment(self):
         self.number += 1
 
-    def get_header(self):
+    def get_header():
         return ["ID", "Found", "Bay", "book"]
 
     def get_ls(self):
-        return [clean_isbn, number, bay, book]
+        return [self.isbn, self.number, self.bay, self.book]
 
     def num(self):
         return self.number
@@ -42,7 +42,7 @@ class Count:
 
 
     def split_csvs(self, csv_obj):
-
+        print(csv_obj.header_dict)
         matching_csv = Tables.Table(csv_obj.get_header() + ['Found'])
         non_matching = Tables.Table(csv_obj.get_header() + ['Found'])
         extras_csv = Tables.Table(Record.get_header())
@@ -52,8 +52,7 @@ class Count:
 
         csv_isbns = set()
 
-        for row in csv_obj.rows():
-
+        for row in csv_obj.get_rows():
             if row[csv_obj.col_number("Barcode")]:
                 csv_isbn = isbn.to_compare(row[csv_obj.col_number("Barcode")])
             else:
@@ -69,8 +68,8 @@ class Count:
             else:
                 non_matching.add_row(row + [num_found])
 
-        for isbn, record in self.founds.items():
-            if isbn not in csv_isbns:
+        for Isbn, record in self.founds.items():
+            if Isbn not in csv_isbns:
                 extras_csv.add_row(record.get_ls())
 
         return (matching_csv, non_matching, extras_csv)

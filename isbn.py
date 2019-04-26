@@ -10,7 +10,7 @@ def to_compare(isbn):
     elif isbn.startswith("991"):
         return isbn[0:9]
     elif isbn.startswith("^"):
-        return isbn[1:12].lstrip("^0")
+        return isbn[0:13].lstrip("^0")
     else:
         return isbn
 

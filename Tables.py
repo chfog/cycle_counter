@@ -5,9 +5,9 @@ class Table():
 
     def __init__(self, header = [], rows = []):
         self.header = header
-        self.width = length(header)
+        self.width = len(header)
         self.length = 0
-        self.header_dict = dict(enumerate(header))
+        self.header_dict = dict([(j,i) for i,j in enumerate(header)])
         self.rows = []
         self.add_rows(rows)
         ## may have problems if multiple isbns are on a csv
@@ -28,24 +28,22 @@ class Table():
                 self.add_row(row)
 
 
-    def add_col(self, col_name, col = []):
+    def add_col(self, col_name, col = None):
+
+        if col == None:
+            col =[''] * self.length
+
         if col_name in self.header_dict:
             print("Column " + col_name + " already in table.")
 
-        elif col == []:
-            self.header.append(col_name)
-            self.header_dict[col_name] = self.length
-            self.length += 1
-            for row in self.rows:
-                row += []
 
         elif len(col) == self.length:
             self.header.append(col_name)
-            self.header_dict[col_name] = self.length
-            self.length += 1
+            self.header_dict[col_name] = self.width
+            self.width += 1
 
             for i in range(self.length):
-                self.rows[i] += [col(i)]
+                self.rows[i] += [col[i]]
 
             else:
                 pass
@@ -72,9 +70,9 @@ class Table():
         return self.header
 
     def get_complete_table(self):
-        return self.header + self.rows
+        return [self.header] + self.rows
 
-    def rows(self):
+    def get_rows(self):
         return self.rows
 
     def with_columns(self, columns = None):
@@ -88,8 +86,7 @@ class Table():
 
     def add_table(self, other):
         if self.get_header() == other.get_header():
-            for row in other.rows():
-                self.add_row(row)
+            return Table(self.get_header(), self.get_rows() + other.get_rows())
         elif self.get_header() == []:
-            self = other
+            return other
         else: print("Headers", self.get_header(), ",", other.get_header(), "do not match.")
