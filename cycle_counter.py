@@ -21,17 +21,21 @@ def main():
         bay =   1
         shelf = 1
         book =  1
+        prev = ''
         for line in open(name, 'r', newline = ''):
-            if line == blender_config.newbay:
+            if line.strip() == blender_config.newbay:
                 bay += 1
                 shelf = 1
                 book = 1
-            elif line == blender_config.newshelf:
+            elif line.strip() == blender_config.newshelf:
                 shelf += 1
                 book = 1
             else:
                 count.increment(line, bay, shelf, book)
-                book += 1
+                if line != prev:
+                    book += 1
+                    prev = line
+
     master_csv = Tables.Table()
 
     for name in csvs:
