@@ -18,14 +18,19 @@ def main():
     count = cch.Count()
 
     for name in txts: ##book resets at start of bay, bay resets when we reach newbay number.
-        bay = 1
-        book = 1
+        bay =   1
+        shelf = 1
+        book =  1
         for line in open(name, 'r', newline = ''):
             if line == blender_config.newbay:
                 bay += 1
+                shelf = 1
+                book = 1
+            elif line == blender_config.newshelf:
+                shelf += 1
                 book = 1
             else:
-                count.increment(line, bay, book)
+                count.increment(line, bay, shelf, book)
                 book += 1
     master_csv = Tables.Table()
 

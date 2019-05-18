@@ -6,5 +6,8 @@
 ## This is a list of column headers, as they should appear in the output files.
 col_format_list = []
 
-## This is the barcode that signifies that a new bay has been entered
-newbay = ""
+## This is the barcode that signifies that a new bay has been entered.
+newbay = '{9789911321978'
+
+## This is the barcode that signifies that a new shelf has been entered.
+newshelf = "{9789911321961"
