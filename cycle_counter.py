@@ -50,4 +50,5 @@ def main():
     founds, non_matching, extras = count.split_csvs(master_csv)
     d_str = datetime.date.today().strftime("%m.%d.%Y_")
     csv.writer(open(d_str + 'FOUND.csv', 'w', newline = '')).writerows(founds.get_complete_table())
-    csv.writer(open(d_str + 'TO_CHECK.csv', 'w', newline = '')).writerows(non_matching.get_complete_table() + extras.get_complete_table())
+    csv.writer(open(d_str + 'TO_CHECK.csv', 'w', newline = '')).writerows(non_matching.get_complete_table())
+    csv.writer(open(d_str + 'EXTRAS.csv', 'w', newline = '')).writerows(extras.get_complete_table())

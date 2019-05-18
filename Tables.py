@@ -7,10 +7,10 @@ class Table():
         self.header = header
         self.width = len(header)
         self.length = 0
-        self.header_dict = dict([(j,i) for i,j in enumerate(header)])
+        self.header_dict = dict([(j,i) for i,j in enumerate(map(lambda x: x.lower(), header))])
         self.rows = []
         self.add_rows(rows)
-        ## may have problems if multiple isbns are on a csv
+        ## may have problems if multiples of the same isbn are on a csv
 
 
     def add_row(self, row):

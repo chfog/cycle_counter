@@ -84,7 +84,7 @@ def is_excluded(f, excludes):
 
 
 
-def give_filenames(cwd = '.', excludes = ["FOUND.csv", "TO_CHECK.csv"]):
+def give_filenames(cwd = '.', excludes = ["FOUND.csv", "TO_CHECK.csv", "EXTRAS.csv"]):
     txts, csvs = [], []
     for fname in os.listdir(cwd):
         if is_excluded(fname, excludes):
