@@ -1,6 +1,6 @@
 
 import os
-from cc import cycle_counter
+from cycle_counter import cycle_counter
 
 print("Drag and drop a folder to blend, or press ENTER to use the 'Pitcher' folder.")
 ind = input("> ")
