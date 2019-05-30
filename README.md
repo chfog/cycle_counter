@@ -33,7 +33,7 @@ Using this program is intended to be easy, but the infrastructure around it requ
 1. Scan every book in the section, in order. If there's more than one of a particular book, scan each one individually.
 1. When you reach the end of a shelf, scan the barcode of "New Shelf Marker," available in Basil. Similarly, "New Bay Marker" will mark the end of a bay. Only the latter needs to be scanned at the end of a bay.
 1. If you scan a book too many times, you'll have to simply use the backspace key to delete that line, leaving the cursor at the beginning of a blank line.
-1. When you've scanned everything, save the file and move it to the manager's computer using a flash drive.
+1. When you've scanned everything, save the file and move it to the `Pitcher` folder on the manager's computer using a flash drive.
 
 ### Pulling a Report
 
