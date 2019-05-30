@@ -17,7 +17,7 @@ The best way to think of CycleCounter is like a blender: you put all of the ingr
 
 ## Installation
 
-1. Begin by installing the latest version of [Python3](#https://www.python.org/downloads/windows/).
+1. Begin by installing the latest version of [Python 3](https://www.python.org/downloads/windows/).
 1. Click the green "Clone or Download" above, and download the ZIP.
 1. Unzip the file and click `installer.py`.
 1. On your desktop, you should now find two folders and a file `blender.py`. `blender.py` is the file that will launch CycleCounter, `cycle_counter` is a folder containing other source code (you shouldn't need to touch it), and `Pitcher` is exactly that: the pitcher you will use the blender on.
@@ -25,7 +25,7 @@ The best way to think of CycleCounter is like a blender: you put all of the ingr
 
 ## Use
 
-Using this program is intended to be easy, but the infrastructure around it requires some special care. The interface from Basil to Excel to `.csv` is rocky, but we've found that it's still far superior to standard paper and pen cycle counts.
+Using this program is intended to be easy, but preparing the input for it requres some care. If you follow these directions exactly, however, you shouldn't have any issues.
 
 ### Scanning Books
 
@@ -40,7 +40,7 @@ Using this program is intended to be easy, but the infrastructure around it requ
 CycleCounter works best with reports that have not been heavily modified from Basil's format. Any deletion, swapping, renaming, etc. of columns should be done after [blending](#blending), as it hasn't been tested on every manager's version of cycle count.
 
 1. Generate reports in Basil and copy-paste them into Excel. If you are doing a report for multiple sections, they can be pasted in sequentially, _as long as the headers match_. CycleCounter will ignore any row that matches the header.
-1. If you have any rows that should be checked even if the right number of books are found (for example, books that should be moved or pulled), add a "Notes" column. Any row with a nonempty notes column will be put in the `TO\_CHECK.csv` file.
+1. If you have any rows that should be checked even if the right number of books are found (for example, books that should be moved or pulled), add a "Notes" column. Any row with a nonempty notes column will be put in the `TO_CHECK.csv` file.
 1. **Very Important**: Highlight the "ID" and "Barcode" columns and format the numbers to have 0 decimal places. Without this, Excel will silently truncate the ISBNs upon saving, and none will match. 
 1. Save the spreadsheet _as a .csv_ to the folder that you want to use. Excel will ask whether you're sure you want to use the `.csv` format. Say yes. When you quit Excel, it will ask you to save unsaved changes, even if you have none. Say no.
 

@@ -5,6 +5,7 @@ import os
 from . import cycle_counter_helper as cch
 from . import Tables
 from . import blender_config
+from . import isbn
 
 def main():
 
@@ -26,9 +27,9 @@ def main():
                 book = 1
             else:
                 count.increment(line, bay, shelf, book)
-                if line != prev:
+                if isbn.to_compare(line) != prev:
                     book += 1
-                    prev = line
+                    prev = isbn.to_compare(line)
 
     master_csv = Tables.Table()
 
