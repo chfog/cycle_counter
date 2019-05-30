@@ -58,11 +58,11 @@ class Table():
             print("no column with name" + col_name)
 
     def has_col(self, col_name):
-        return col_name in self.header_dict
+        return col_name.lower() in self.header_dict
 
     def col_number(self, col_name):
         if self.has_col(col_name):
-            return self.header_dict[col_name]
+            return self.header_dict[col_name.lower()]
         else:
             print("no column with name" + col_name)
 

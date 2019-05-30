@@ -11,7 +11,7 @@ a program to help with cycle counts
 
 # About
 
-CycleCounter is a simple program, built with python, to simplify cycle counts at Copperfield's Books. At its core, it is a set of routines that will take a text file of barcodes and a .csv file from Basil, and put the number of books at the end of each row. By using special barcodes, one can also keep track of where in the shelf an item was scanned. It's not fancy-looking, but it's accurate.
+CycleCounter is a simple program, built with python, to simplify cycle counts at Copperfield's Books. At its core, it is a set of routines that will take a text file of barcodes and a `.csv` file from Basil, and put the number of books at the end of each row. By using special barcodes, one can also keep track of where in the shelf an item was scanned. It's not fancy-looking, but it's accurate.
 
 The best way to think of CycleCounter is like a blender: you put all of the ingredients (files) in a pitcher (folder), and press a button, and it does the rest.
 
@@ -19,7 +19,7 @@ The best way to think of CycleCounter is like a blender: you put all of the ingr
 
 # Use
 
-Using this program is intended to be easy, but the infrastructure around it requires some special care. The interface from Basil to Excel to .csv is rocky, but we've found that it's still far superior to standard paper and pen cycle counts.
+Using this program is intended to be easy, but the infrastructure around it requires some special care. The interface from Basil to Excel to `.csv` is rocky, but we've found that it's still far superior to standard paper and pen cycle counts.
 
 ## Scanning Books
 
@@ -36,11 +36,15 @@ CycleCounter works best with reports that have not been heavily modified from Ba
 1. Generate reports in Basil and copy-paste them into Excel. If you are doing a report for multiple sections, they can be pasted in sequentially, _as long as the headers match_. CycleCounter will ignore any row that matches the header.
 1. If you have any rows that should be checked even if the right number of books are found (for example, books that should be moved or pulled), add a "Notes" column. Any row with a nonempty notes column will be put in the TO\_CHECK file.
 1. **Very Important**: Highlight the "ID" and "Barcode" columns and format the numbers to have 0 decimal places. Without this, Excel will silently truncate the ISBNs upon saving, and none will match. 
-1. Save the spreadsheet _as a .csv_ to the folder that you want to use.
+1. Save the spreadsheet _as a .csv_ to the folder that you want to use. Excel will ask whether you're sure you want to use the `.csv` format. Say yes. When you quit Excel, it will ask you to save unsaved changes, even if you have none. Say no.
 
 ## Blending
 
-Once you have the .txt file of ISBNs and the .csv in the same folder, double-click on the `blender.py` file. You will see a prompt to drag and drop a folder name. If you are using the provided `Pitcher` file, you can just press <Enter>. If all goes well, you should see two dated .csv files appear, as well as a dated folder. The file called `TO_CHECK.csv` will contain the books whose on-hand number differs from the number found. `EXTRAS.csv` will contain those which did not appear in the provided .csv.
+1. Once you have the `.txt` file of ISBNs and the `.csv` in the same folder, double-click on the `blender.py` file. You will see a prompt to drag and drop a folder name. If you are using the provided `Pitcher` file, you can just press <Enter>. 
+1. You will then be asked to name the cycle count; this is just the name of the folder that will contain everything else. Press enter.
+1. If all goes well, a new folder will appear within the one provided in step (1). It will contain: a file `FOUND.csv`, which should be self-explanatory; `TO_CHECK.csv`, containing lines whose "On Hand" column didn't match the number scanned; and `EXTRAS.csv`, a list of barcodes that didn't match any in the provided `.csv`s. This folder will also contain the `.txt` and `.csv` files, so that they don't interfere with future cycle counts.
+1. You may get a message that a folder already exists, especially if you're re-running a count. You'll have to delete or rename it and run `blender.py` again. Make sure to move out the `.txt` and `.csv` files from scanning and pulling reports first. 
+1. If nothing appears to happen, check that you pulled the report as detailed.
 
 # FAQ
 
@@ -48,7 +52,13 @@ Once you have the .txt file of ISBNs and the .csv in the same folder, double-cli
 
 > Does this work with remainders?
 
-Yes! The horrors of counting remainders was one of the major motivations for this.
+Yes! The horror of counting remainders was one of the major motivations for this.
+
+----
+
+> What about magazines?
+
+Yup!
 
 ----
 
@@ -58,7 +68,7 @@ Yes, but since they're usually spread out across the store, and it's not always 
 
 ----
 
-> Why can't I just use an .xlsx file instead of a .csv?
+> Why can't you make it use an `.xlsx` file instead of a `.csv`?
 
 There are actually a number of ways to do this, but they all involve downloading more than just python and CycleCounter, as well as configuring it. This is nontrivial, and best avoided.
 
@@ -70,21 +80,21 @@ I figured that my knowledge of making pretty pointy-clicky things (otherwise kno
 
 ----
 
-> Nothing happens when I run `blender.py`.
+> Why does nothing happen when I run `blender.py`?
 
-Since writing and moving files around is the last step before CycleCounter ends, any errors will stop it before this point. Check to make sure that you've set up everything as detailed in [Use](#use).
+Since making and moving files around is the last step before CycleCounter ends, any errors will kill it before this point. Check to make sure that you've set up everything as detailed in [Use](#use).
 
 ----
 
 > I think my way of doing cycle counts is faster/more efficient.
 
-Okay, not a question, but I understand. The scanning process is certainly quicker than doing paper-and-pencil cycle counts, but preparing the .csv can be tedious, and going back to check things can make it seem like you haven't saved any time at all. We found that cycle counts were more efficient overall, but the greatest benefit came from unalphabetized sections like Biography. Also, we have found quite a few books that either in the wrong section or had been scrapped, which is less likely to be noticed with paper and pen. The latter case amounted to hundreds of dollars in inventory, so even if you do most of your counts another way, it may be worth it to use CycleCounter once in a while. It won't hurt my feelings one bit if you don't, though.
+Okay, not a question, but I understand. The scanning process is certainly quicker than doing paper-and-pencil cycle counts, but preparing the `.csv` can be tedious, and going back to check things can make it seem like you haven't saved any time at all. We found that cycle counts were more efficient overall, but the greatest benefit came from unalphabetized sections like Biography. Also, we have found quite a few books that either in the wrong section or had been scrapped, which is less likely to be noticed with paper and pen. The latter case amounted to hundreds of dollars in inventory, so even if you do most of your counts another way, it may be worth it to use CycleCounter once in a while. It won't hurt my feelings one bit if you don't, though.
 
 ----
 
 > Why is the `TO_CHECK.csv` file so long?
 
-Did you make sure to do step (3) [Pulling a Report](#pulling-a-report)? If not, Excel will have ruined Basil's nice ISBNs, and all of those rows will have a corresponding one in `EXTRAS.csv`.
+Did you make sure to do step (3) [Pulling a Report](#pulling-a-report)? If not, Excel will have ruined Basil's nice ISBNs, and nothing will be able to match. Unfortunately, this is an issue with Excel, so I can't fix it.
 
 ----
 

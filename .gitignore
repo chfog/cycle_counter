@@ -12,7 +12,8 @@ TO_CHECK.csv
 # Ignore pycache
 __pycache__/
 
-# Ignore testdir
+# Ignore test directories
+Pitcher/
 testdir/
 
 # Ignore test files

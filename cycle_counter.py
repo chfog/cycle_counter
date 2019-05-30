@@ -6,12 +6,6 @@ import cycle_counter_helper as cch
 import Tables
 import blender_config
 
-##os.chdir('/Users/chf')
-##CSV = "trial-cycle-count.csv"
-##TXT = "test-isbns.txt"
-
-
-
 def main():
 
     txts, csvs = cch.give_filenames()
@@ -48,7 +42,18 @@ def main():
         master_csv = master_csv.add_table(each_csv)
 
     founds, non_matching, extras = count.split_csvs(master_csv)
-    d_str = datetime.date.today().strftime("%m.%d.%Y_")
-    csv.writer(open(d_str + 'FOUND.csv', 'w', newline = '')).writerows(founds.get_complete_table())
-    csv.writer(open(d_str + 'TO_CHECK.csv', 'w', newline = '')).writerows(non_matching.get_complete_table())
-    csv.writer(open(d_str + 'EXTRAS.csv', 'w', newline = '')).writerows(extras.get_complete_table())
+    d_str = input("Give this cycle count a name: ") + datetime.date.today().strftime("%m.%d.%Y")
+
+    try:
+        os.mkdir(d_str) 
+        csv.writer(open(os.path.join(d_str, 'FOUND.csv'), 'w', newline = '')).writerows(founds.get_complete_table())
+        csv.writer(open(os.path.join(d_str, 'TO_CHECK.csv'), 'w', newline = '')).writerows(non_matching.get_complete_table())
+        csv.writer(open(os.path.join(d_str, 'EXTRAS.csv'), 'w', newline = '')).writerows(extras.get_complete_table())
+
+        for name in csvs:
+            os.rename(name, os.path.join(d_str, name))
+        for name in txts:
+            os.rename(name, os.path.join(d_str, name))
+
+    except (FileExistsError, OSError):
+        input("The folder " + d_str + " already exists. Remove it or rename it and try again.")

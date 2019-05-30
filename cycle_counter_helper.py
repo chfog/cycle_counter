@@ -43,7 +43,6 @@ class Count:
 
 
     def split_csvs(self, csv_obj):
-        print(csv_obj.header_dict)
         matching_csv = Tables.Table(csv_obj.get_header() + Record.get_header(1))
         non_matching = Tables.Table(csv_obj.get_header() + Record.get_header(1))
         extras_csv = Tables.Table(Record.get_header())
