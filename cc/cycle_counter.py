@@ -2,9 +2,9 @@
 import datetime
 import csv
 import os
-import cycle_counter_helper as cch
-import Tables
-import blender_config
+from . import cycle_counter_helper as cch
+from . import Tables
+from . import blender_config
 
 def main():
 

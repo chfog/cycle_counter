@@ -1,10 +1,9 @@
 
 
-
-import isbn
 import os
-import blender_config
-import Tables
+from . import isbn
+from . import blender_config
+from . import Tables
 
 class Record:
 
